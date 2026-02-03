@@ -35,10 +35,54 @@ davis_aggregated <- with(
     )
 )
 
-fwrite(davis_aggregated, file = "data/davis_population.csv")
-
 # Creating the mixing matrix
-n <- nrow(davis_aggregated)
-mixmat <- matrix(1/n, n, n)
+davis_school_path <- system.file(
+  "extdata/DavisSchools.csv", package = "multigroup.vaccine"
+  )
+davis_school_data <- fread(davis_school_path)
+davis_school_data
 
-saveRDS(mixmat, file = "data/davis_mixing_matrix.rds")
+schoolpops <- davis_school_data$pop
+schoolagegroups <- davis_school_data$level + 2
+schoolvax <- rep(0, length(schoolagegroups))
+
+agepops <- davis_aggregated$agepops
+
+for (a in unique(schoolagegroups)) {
+  inds <- which(schoolagegroups == a)
+  schoolpops[inds] <- round(agepops[a] * schoolpops[inds] / sum(schoolpops[inds]))
+}
+cm <- contactMatrixAgeSchool(agelims, agepops, schoolagegroups, schoolpops, schportion = 0.7)
+grouppops <- c(agepops[1:(min(schoolagegroups) - 1)],
+  schoolpops,
+  agepops[(max(schoolagegroups) + 1):length(agepops)])
+
+
+## Set up outbreak analysis
+## STOP()
+
+################################################
+# Short Creek Data Preparation
+################################################
+
+# Making it row-stochastic for use in epiworld
+davis_population_mixing <- cm
+davis_population_mixing <- davis_population_mixing / rowSums(davis_population_mixing)
+
+saveRDS(davis_population_mixing, file = "data/davis_mixing_matrix.rds")
+
+
+davis_population <- data.table(
+  age_labels = rownames(davis_population_mixing),
+  agepops = grouppops,
+  agelims = gsub(
+    ".+to([0-9]+).*", "\\1",
+    rownames(davis_population_mixing)
+  ) |> as.integer(),
+  vacc_rate = 0
+)
+
+davis_population[age_labels == "under1", agelims := 1L]
+davis_population[age_labels == "70+", agelims := 90L]
+
+fwrite(davis_population, file = "data/davis_population.csv")

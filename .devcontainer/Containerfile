@@ -16,8 +16,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y valgrind gdb \
 
 RUN apt-get update && apt-get install --no-install-recommends -y pre-commit nano
 
-RUN installGithub.r UofUEpiBio/epiworldR@gvegayon/tabletop \
-  installGithub.r EpiForeSITE/multigroup-vaccine && \
+RUN installGithub.r UofUEpiBio/epiworldR@gvegayon/tabletop EpiForeSITE/multigroup-vaccine@tabletop-exercise && \
   install2.r socialmixr
 
 CMD ["bash"]
