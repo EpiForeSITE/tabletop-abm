@@ -102,10 +102,10 @@ Running the model
 davis_model |>
   run_multiple(
     ndays = 100,
-    nsims = 50,
+    nsims = 200,
     seed  = 8812,
     saver = make_saver("outbreak_size", "hospitalizations"),
-    nthreads = 10L
+    nthreads = 25L
   )
 ```
 

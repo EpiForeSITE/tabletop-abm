@@ -127,14 +127,14 @@ Running the model
 davis_model |>
   run_multiple(
     ndays = 100,
-    nsims = 50,
+    nsims = 200,
     seed  = 8812,
     saver = make_saver("outbreak_size", "hospitalizations"),
-    nthreads = 10L
+    nthreads = 25L
   )
 ```
 
-    Starting multiple runs (50) using 10 thread(s)
+    Starting multiple runs (200) using 25 thread(s)
     _________________________________________________________________________
     _________________________________________________________________________
     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| done.
@@ -155,10 +155,10 @@ summary(davis_model)
     Number of entities  : 142
     Days (duration)     : 100 (of 100)
     Number of viruses   : 1
-    Last run elapsed t  : 0.00m
-    Total elapsed t     : 2.00m (50 runs)
-    Last run speed      : 2.11 million agents x day / second
-    Average run speed   : 13.90 million agents x day / second
+    Last run elapsed t  : 8.00s
+    Total elapsed t     : 69.00s (200 runs)
+    Last run speed      : 4.33 million agents x day / second
+    Average run speed   : 108.40 million agents x day / second
     Rewiring            : off
 
     Global events:
@@ -199,12 +199,12 @@ summary(davis_model)
 
     Transition Probabilities:
      - Susceptible              1.00  0.00     -     -     -  0.00  0.00     -     -     -
-     - Exposed                     -  0.81  0.19     -     -     -     -     -     -     -
-     - Infected                    -     -     -     -     -     -     -  0.38     -  0.62
+     - Exposed                     -  0.82  0.18     -     -     -     -     -     -     -
+     - Infected                    -     -     -     -     -     -     -  0.27     -  0.73
      - Isolated                    -     -     -     -     -     -     -  1.00     -     -
      - Detected Hospitalized       -     -     -     -     -     -     -     -     -     -
      - Quarantined Susceptible  0.07     -     -     -     -  0.93     -     -     -     -
-     - Quarantined Exposed         -     -     -  0.12     -     -  0.88     -     -     -
+     - Quarantined Exposed         -     -     -  0.29     -     -  0.71     -     -     -
      - Isolated Recovered          -     -     -     -     -     -     -  0.75     -  0.25
      - Hospitalized                -     -     -     -     -     -     -     -     -     -
      - Recovered                   -     -     -     -     -     -     -     -     -  1.00
@@ -221,12 +221,12 @@ str(ans)
 ```
 
     List of 2
-     $ outbreak_size   :Classes 'epiworld_multiple_save_i', 'data.table' and 'data.frame':  5050 obs. of  5 variables:
-      ..$ sim_num      : int [1:5050] 1 1 1 1 1 1 1 1 1 1 ...
-      ..$ date         : int [1:5050] 0 1 2 3 4 5 6 7 8 9 ...
-      ..$ virus_id     : int [1:5050] 0 0 0 0 0 0 0 0 0 0 ...
-      ..$ virus        : chr [1:5050] "Davis county" "Davis county" "Davis county" "Davis county" ...
-      ..$ outbreak_size: int [1:5050] 10 10 10 10 11 12 12 12 12 12 ...
+     $ outbreak_size   :Classes 'epiworld_multiple_save_i', 'data.table' and 'data.frame':  20200 obs. of  5 variables:
+      ..$ sim_num      : int [1:20200] 1 1 1 1 1 1 1 1 1 1 ...
+      ..$ date         : int [1:20200] 0 1 2 3 4 5 6 7 8 9 ...
+      ..$ virus_id     : int [1:20200] 0 0 0 0 0 0 0 0 0 0 ...
+      ..$ virus        : chr [1:20200] "Davis county" "Davis county" "Davis county" "Davis county" ...
+      ..$ outbreak_size: int [1:20200] 10 10 10 10 11 12 12 12 12 12 ...
       ..- attr(*, ".internal.selfref")=<externalptr> 
       ..- attr(*, "what")= chr "outbreak_size"
      $ hospitalizations:Classes 'epiworld_multiple_save_i' and 'data.frame':    0 obs. of  6 variables:

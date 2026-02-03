@@ -18,4 +18,4 @@ README.md: README.qmd
 	quarto render README.qmd
 
 allocate:
-	salloc --partition=notchpeak-freecycle --account=vegayon -c10 --mem=100G
+	salloc --partition=notchpeak-freecycle --account=vegayon -c50 --mem=200G
