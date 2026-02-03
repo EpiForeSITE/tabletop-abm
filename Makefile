@@ -10,3 +10,12 @@ clean-data:
 
 data:
 	Rscript --vanilla data/davis_population.R
+
+install:
+	Rscript --vanilla -e 'devtools::install_github("UofUEpiBio/epiworldR@gvegayon/tabletop")'
+
+README.md: README.qmd
+	quarto render README.qmd
+
+allocate:
+	salloc --partition=notchpeak-freecycle --account=vegayon -c10 --mem=100G

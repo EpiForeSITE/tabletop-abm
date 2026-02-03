@@ -69,16 +69,16 @@ davis_model <- ModelSEIRMixingQuarantine(
   prevalence                   = 10/N,
   contact_rate                 = contact_rate,
   transmission_rate            = p_transmission,
-  incubation_days              = 3.5,
+  incubation_days              = 7,
   recovery_rate                = 1/p_recovery,
   contact_matrix               = davis_mixing_matrix,
-  hospitalization_rate         = 0.05,
-  hospitalization_period       = 10,
-  days_undetected              = 2, 
+  hospitalization_rate         = 0.1,
+  hospitalization_period       = 4,
+  days_undetected              = 3, 
   quarantine_period            = 14,
   quarantine_willingness       = 1.0,
   isolation_willingness        = 1.0,
-  isolation_period             = 7,
+  isolation_period             = 5,
   contact_tracing_success_rate = 0.8,
   contact_tracing_days_prior   = 7
 )
@@ -102,10 +102,10 @@ Running the model
 davis_model |>
   run_multiple(
     ndays = 100,
-    nsims = 10,
+    nsims = 20,
     seed  = 8812,
     saver = make_saver("outbreak_size", "hospitalizations"),
-    nthreads = 1L
+    nthreads = 8L
   )
 ```
 
@@ -191,6 +191,7 @@ The weights attribute is to ensure that we take into consideration counting indi
 
 ```{r}
 #| label: hospitalizations
+#| eval: false
 hosp_tot <- hospitalizations[, .(total = sum(count)), by = .(sim_num, tool_id)]
 hosp_tot[, status := fifelse(tool_id == -1, "Unvax", "Vax")]
 hosp_tot[, tool_id := NULL]
@@ -200,6 +201,7 @@ We can create a couple of boxplot to show how many cases we see per vaccination 
 
 ```{r}
 #| label: summary-hosp
+#| eval: false
 hosp_tot <- merge(
   hosp_tot[status == "Unvax", .(sim_num, unvax = total)],
   hosp_tot[status == "Vax", .(sim_num, vax = total)],
@@ -222,4 +224,3 @@ hosp_tot[, .(vax, unvax)] |>
 
 ## Final comments
 
-Ultimately, based on the current results, we would be expecting all unvaccinated individuals to become infected, with a small number of vaccinated individuals also getting infected. This is consistent with the high R0 of measles and the low vaccination rates in the area. Nonetheless, these results should be taken with caution, as this simulation is a simplification of reality that does not consider, for example, individuals' changing their behavior as a function of what is observed; it would be natural to expect some level of precaution, *e.g.*, reducing contact rates, would be observed in such a situation.
