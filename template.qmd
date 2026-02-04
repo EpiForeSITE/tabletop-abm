@@ -7,6 +7,7 @@ params:
   R0: 1.1
   quarantine: TRUE
   isolation: TRUE
+  pep: TRUE
 ---
 
 ```{r}
@@ -17,7 +18,8 @@ if (!exists("params")) {
     nsims = 20L,
     R0 = 1.1,
     quarantine = TRUE,
-    isolation = TRUE
+    isolation = TRUE,
+    pep = TRUE
   )
 }
 ```
@@ -117,6 +119,26 @@ add_entities_from_dataframe(
   col_number = "agepops",
   as_proportion = FALSE
 )
+```
+
+Checking if the model includes post-exposure prophylaxis (PEP)
+
+```{r}
+#| label: pep-check
+if (params$pep) {
+  add_tool(
+    davis_model,
+    Tool(
+      name = "Post Exposure Prophylaxis",
+      prevalence = .3,
+      as_proportion = TRUE,
+      susceptibility_reduction = 0.5,
+      transmission_reduction = 0.8,
+      recovery_enhancer = 0.0,
+    death_reduction = 0.0
+    )
+  )
+}
 ```
 
 Running the model
