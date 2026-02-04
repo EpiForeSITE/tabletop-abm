@@ -17,7 +17,7 @@ To execute this model, it is recommended to run it in a high-performance computi
 
 The following diagram illustrates the compartments and transitions in the SEIRH model:
 
-```{mermaid}
+```mermaid
 flowchart TB
 
     %% Disease progression states
@@ -105,3 +105,6 @@ knitr::kable(
 )
 ```
 
+## Software
+
+The simulations used the R package `epiworldR` version `r `packageVersion("epiworldR")``, which can be found at <https://github.com/UofUEpiBio/epiworldR>, and R version `r R.version.string`. 

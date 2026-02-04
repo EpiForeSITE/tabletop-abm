@@ -49,43 +49,43 @@ flowchart TB
         R[Recovered]
     end
 
-    S --&gt; E
-    E --&gt; In
-    In --&gt; H
-    H --&gt; R
-    In --&gt; R
+    S --> E
+    E --> In
+    In --> H
+    H --> R
+    In --> R
 
     %% Quarantine states
-    Dh[Detected&lt;br&gt;Hospitalized]
-    Qs[Quarantined&lt;br&gt;Susceptible]
-    Qe[Quarantined&lt;br&gt;Exposed]
+    Dh[Detected<br>Hospitalized]
+    Qs[Quarantined<br>Susceptible]
+    Qe[Quarantined<br>Exposed]
     I[Isolated]
-    Ir[Isolated&lt;br&gt;Recovered]
+    Ir[Isolated<br>Recovered]
 
     %% Infected to
-    In &lt;==&gt; I
-    In --&gt; Ir
-    In --&gt; Dh
+    In <==> I
+    In --> Ir
+    In --> Dh
 
     %% Isolated to
-    I --&gt; R
-    I --&gt; Ir
-    I --&gt; H
-    I --&gt; Dh
+    I --> R
+    I --> Ir
+    I --> H
+    I --> Dh
 
     %% Susceptible quarantined
-    S &lt;==&gt; Qs
+    S <==> Qs
 
     %% Exposed
-    E &lt;==&gt; Qe
+    E <==> Qe
 
-    Qe --&gt; I
-    Qe --&gt; In
+    Qe --> I
+    Qe --> In
 
-    Dh --&gt; R
+    Dh --> R
 
     %% Isolated recovered
-    Ir --&gt; R
+    Ir --> R
 ```
 
 ## Links to the scenarios
@@ -107,6 +107,7 @@ scenarios run for Davis County:
 | 1.5 | yes       | no         | yes | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_no_pep_yes.md)  |
 | 1.5 | yes       | yes        | no  | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_yes.md)         |
 | 1.5 | yes       | yes        | yes | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_yes_pep_yes.md) |
+| 1.9 | no        | no         | no  | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)           |
 | 1.9 | no        | no         | yes | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no_pep_yes.md)   |
 | 1.9 | yes       | no         | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)          |
 | 1.9 | yes       | no         | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no_pep_yes.md)  |
@@ -114,3 +115,10 @@ scenarios run for Davis County:
 | 1.9 | yes       | yes        | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes_pep_yes.md) |
 
 Links to the scenario reports for Davis County
+
+## Software
+
+The simulations used the R package `epiworldR` version
+`r`packageVersion(“epiworldR”)\`\`, which can be found at
+<https://github.com/UofUEpiBio/epiworldR>, and R version R version 4.4.0
+(2024-04-24).
