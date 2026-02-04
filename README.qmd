@@ -20,8 +20,8 @@ fns <- list.files(path = "scenarios", pattern = "\\.md$", full.names = TRUE)
 scenarios <- data.frame(
   R0 = gsub(".+R0_([0-9.]+)_.*", "\\1", fns),
   Isolation = gsub(".+isolation_([A-Za-z]+)_.*", "\\1", fns),
-  Quarantine = gsub(".+quarantine_([A-Za-z]+)\\.md", "\\1", fns),
-  PEP = gsub(".+pep_([A-Za-z]+)\\.md", "\\1", fns),
+  Quarantine = gsub(".+quarantine_([A-Za-z]+)(\\.|_).+", "\\1", fns),
+  PEP = ifelse(grepl("_pep_yes", fns), "yes", "no"),
   Link = paste0("[View Report](", fns, ")")
 )
 
