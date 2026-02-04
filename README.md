@@ -10,6 +10,7 @@
 | 1.5 | no        | no         | [View Report](scenarios/R0_1.5_isolation_no_quarantine_no.md)   |
 | 1.5 | yes       | no         | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_no.md)  |
 | 1.5 | yes       | yes        | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_yes.md) |
+| 1.9 | no        | no         | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)   |
 | 1.9 | yes       | no         | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)  |
 | 1.9 | yes       | yes        | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes.md) |
 
