@@ -19,3 +19,6 @@ README.md: README.qmd
 
 allocate:
 	salloc --partition=notchpeak-freecycle --account=vegayon -c50 --mem=200G
+
+scenarios:
+	R CMD BATCH --vanilla runner.R runner.Rout &
