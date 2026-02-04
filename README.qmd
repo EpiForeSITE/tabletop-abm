@@ -37,7 +37,8 @@ scenarios <- scenarios[
 
 knitr::kable(
   scenarios,
-  caption = "Links to the scenario reports for Davis County"
+  caption = "Links to the scenario reports for Davis County",
+  row.names = FALSE
 )
 ```
 
