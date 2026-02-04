@@ -2,6 +2,7 @@
 R0s <- c(1.1, 1.5, 1.9)
 isolation <- c(TRUE, FALSE)
 quarantine <- c(TRUE, FALSE)
+pep <- c(TRUE, FALSE)
 
 nsims <- 200L
 nthreads <- 50L
@@ -10,7 +11,8 @@ nthreads <- 50L
 scenarios <- expand.grid(
   R0 = R0s,
   isolation = isolation,
-  quarantine = quarantine
+  quarantine = quarantine,
+  pep = pep
 )
 
 # Removing invalid scenarios: quarantine without isolation
@@ -26,6 +28,10 @@ for (i in seq_len(nrow(scenarios))) {
     ifelse(scenario$isolation, "yes", "no"),
     ifelse(scenario$quarantine, "yes", "no")  
     )
+
+  if (scenario$pep) {
+    scenario_name <- paste0(scenario_name, "_pep_yes")
+  }
 
   # Verifying the file does not already exist
   fn <- file.path("scenarios", paste0(scenario_name, ".md"))

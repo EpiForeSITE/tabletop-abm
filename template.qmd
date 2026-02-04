@@ -77,6 +77,7 @@ Se will be assuming two values
 To compute the basic reproductive number, we use the following:
 
 ```{r}
+#| label: calibration
 p_transmission <- 0.2
 p_recovery <- 1/6
 contact_rate <- params$R0 * p_recovery / p_transmission
@@ -112,6 +113,7 @@ davis_model <- ModelSEIRMixingQuarantine(
 We now start adding some of the entities from the population data:
 
 ```{r}
+#| label: adding-entities
 add_entities_from_dataframe(
   model = davis_model,
   entities = davis_pop,
@@ -128,7 +130,7 @@ Checking if the model includes post-exposure prophylaxis (PEP)
 if (params$pep) {
   add_tool(
     davis_model,
-    Tool(
+    tool(
       name = "Post Exposure Prophylaxis",
       prevalence = .3,
       as_proportion = TRUE,
@@ -144,6 +146,7 @@ if (params$pep) {
 Running the model
 
 ```{r}
+#| label: running-model
 davis_model |>
   run_multiple(
     ndays = 100,
@@ -157,6 +160,7 @@ davis_model |>
 Looking at the single simulation results
 
 ```{r}
+#| label: model-summary
 summary(davis_model)
 ```
 

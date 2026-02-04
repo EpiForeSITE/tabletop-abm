@@ -3,7 +3,13 @@ format: gfm
 title: "Tabletop ABM for Davis County, Utah"
 ---
 
+This repository presents a tabletop agent-based model (ABM) for disease spread in Davis County, Utah. The model utilizes age mixing data to simulate disease transmission dynamics under various intervention scenarios, including isolation, quarantine, and post-exposure prophylaxis (PEP).
+
+This is not a real situation and is intended for educational purposes only.
+
 ## Links to the scenarios
+
+The following table links to the reports generated for each of the scenarios run for Davis County:
 
 ```{r}
 #| label: listing
@@ -15,6 +21,7 @@ scenarios <- data.frame(
   R0 = gsub(".+R0_([0-9.]+)_.*", "\\1", fns),
   Isolation = gsub(".+isolation_([A-Za-z]+)_.*", "\\1", fns),
   Quarantine = gsub(".+quarantine_([A-Za-z]+)\\.md", "\\1", fns),
+  PEP = gsub(".+pep_([A-Za-z]+)\\.md", "\\1", fns),
   Link = paste0("[View Report](", fns, ")")
 )
 
@@ -23,7 +30,8 @@ scenarios <- scenarios[
   order(
     as.numeric(scenarios$R0),
     scenarios$Isolation,
-    scenarios$Quarantine
+    scenarios$Quarantine,
+    scenarios$PEP
   ),
 ]
 
@@ -32,3 +40,4 @@ knitr::kable(
   caption = "Links to the scenario reports for Davis County"
 )
 ```
+

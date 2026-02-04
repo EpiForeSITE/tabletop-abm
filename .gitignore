@@ -1,1 +1,6 @@
-.vscode
+scenarios/*.rds
+scenarios/*rmarkdown
+scenarios/*.qmd
+*.pdf
+*.Rout
+*.csv
