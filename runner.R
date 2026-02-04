@@ -1,9 +1,9 @@
 
-R0s <- c(1.1, 1.5, 1.9)
-isolation <- c(TRUE, FALSE)
-quarantine <- c(TRUE, FALSE)
+R0s <- 1.9 # c(1.1, 1.5, 1.9)
+isolation <- FALSE # c(TRUE, FALSE)
+quarantine <- FALSE # c(TRUE, FALSE)
 
-nsims <- 40L
+nsims <- 200L
 nthreads <- 40L
 
 # Generating all combinations as a data.frame
@@ -33,7 +33,7 @@ for (i in seq_len(nrow(scenarios))) {
   }
 
   # Creating a copy of the template
-  file.copy("template.qmd", fn_qmd)
+  file.copy("template.qmd", fn_qmd, overwrite = TRUE)
   
   quarto::quarto_render(
     input = fn_qmd,
@@ -46,5 +46,7 @@ for (i in seq_len(nrow(scenarios))) {
       isolation  = scenario$isolation
     )
   )
+
+  stop("Taking a pause")
 }
 

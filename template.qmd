@@ -10,6 +10,19 @@ params:
 ---
 
 ```{r}
+#| label: checking-params
+if (!exists("params")) {
+  params <- list(
+    nthreads = 4L,
+    nsims = 20L,
+    R0 = 1.1,
+    quarantine = TRUE,
+    isolation = TRUE
+  )
+}
+```
+
+```{r}
 library(epiworldR)
 library(data.table)
 ```
@@ -76,11 +89,11 @@ isolation_willingness  <- ifelse(params$isolation, 1.0, 0.0)
 davis_model <- ModelSEIRMixingQuarantine(
   name                         = "Davis county",
   n                            = N,
-  prevalence                   = 10/N,
+  prevalence                   = 1/N,
   contact_rate                 = contact_rate,
   transmission_rate            = p_transmission,
   incubation_days              = 1.5,
-  recovery_rate                = 1/p_recovery,
+  recovery_rate                = p_recovery,
   contact_matrix               = davis_mixing_matrix,
   hospitalization_rate         = 0.1,
   hospitalization_period       = 4,
@@ -114,7 +127,7 @@ davis_model |>
     ndays = 100,
     nsims = params$nsims,
     seed  = 8812,
-    saver = make_saver("outbreak_size", "hospitalizations"),
+    saver = make_saver("outbreak_size", "hospitalizations", "reproductive"),
     nthreads =params$nthreads
   )
 ```
@@ -135,6 +148,17 @@ ans <- davis_model |>
 
 # Taking a look at the structure
 str(ans)
+
+# Saving it
+saveRDS(
+  ans,
+  file = sprintf(
+    "R0_%.1f_isolation_%s_quarantine_%s.rds",
+    params$R0,
+    ifelse(params$isolation, "yes", "no"),
+    ifelse(params$quarantine, "yes", "no")  
+    )
+)
 ```
 
 The function call will get us the results as a list of data.frames (data.table objects in this case). We will use the `data.table` package to manipulate the information.
@@ -142,7 +166,6 @@ The function call will get us the results as a list of data.frames (data.table o
 ```{r}
 #| label: data.table
 # Converting into data.table format for convenience
-library(data.table)
 outbreak_size <- ans$outbreak_size |> as.data.table()
 hospitalizations <- ans$hospitalizations |> as.data.table()
 ```
@@ -187,6 +210,26 @@ with(
 })
 ```
 
+```{r}
+#| label: alt-representation
+outbreak_tot <- outbreak_size[
+  date == max(date), .(total = sum(outbreak_size)), by = sim_num
+  ]
+
+# Creating a table showing the probability of these events
+sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000)
+sapply(sizes, function(sz) mean(outbreak_tot$total >= sz))
+
+knitr::kable(
+  data.table(
+    Size = sizes,
+    Probability = sapply(sizes, function(sz) mean(outbreak_tot$total >= sz)),
+    "Cumulative Probability" = sapply(sizes, function(sz) mean(outbreak_tot$total >= sz))
+  ),
+  caption = "Probability of outbreak sizes in Davis County"
+)
+```
+
 ## Hospitalizations
 
 In the case of the hospitalizations, we can draw a similar figure. The hospitalizations data contains the following information:
@@ -212,25 +255,26 @@ We can create a couple of boxplot to show how many cases we see per vaccination 
 
 ```{r}
 #| label: summary-hosp
-#| eval: false
-hosp_tot <- merge(
-  hosp_tot[status == "Unvax", .(sim_num, unvax = total)],
-  hosp_tot[status == "Vax", .(sim_num, vax = total)],
-  all = TRUE
-)
-
-# Filling zeros
-hosp_tot[, unvax := fcoalesce(unvax, 0L)]
-hosp_tot[, vax := fcoalesce(vax, 0L)]
-
-hosp_tot[, .(vax, unvax)] |>
-  as.matrix() |>
-  boxplot(
-    ylab = "Count",
-    xlab = "Status",
-    main = "Hospitalization per vaccination status",
-    sub  = "Mixing model with age and school data (100 simulations)"
+if (nrow(hospitalizations) > 0) {
+  hosp_tot <- merge(
+    hosp_tot[status == "Unvax", .(sim_num, unvax = total)],
+    hosp_tot[status == "Vax", .(sim_num, vax = total)],
+    all = TRUE
   )
+
+  # Filling zeros
+  hosp_tot[, unvax := fcoalesce(unvax, 0L)]
+  hosp_tot[, vax := fcoalesce(vax, 0L)]
+
+  hosp_tot[, .(vax, unvax)] |>
+    as.matrix() |>
+    boxplot(
+      ylab = "Count",
+      xlab = "Status",
+      main = "Hospitalization per vaccination status",
+      sub  = "Mixing model with age and school data (100 simulations)"
+    )
+}
 ```
 
 ## Final comments
