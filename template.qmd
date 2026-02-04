@@ -95,7 +95,7 @@ davis_model <- ModelSEIRMixingQuarantine(
   incubation_days              = 1.5,
   recovery_rate                = p_recovery,
   contact_matrix               = davis_mixing_matrix,
-  hospitalization_rate         = 0.1,
+  hospitalization_rate         = 0.01,
   hospitalization_period       = 4,
   days_undetected              = 3, 
   quarantine_period            = 14,
@@ -222,11 +222,12 @@ sapply(sizes, function(sz) mean(outbreak_tot$total >= sz))
 
 knitr::kable(
   data.table(
-    Size = sizes,
-    Probability = sapply(sizes, function(sz) mean(outbreak_tot$total >= sz)),
-    "Cumulative Probability" = sapply(sizes, function(sz) mean(outbreak_tot$total >= sz))
+    "Size" = sizes,
+    "P(Greater or equal)" = sapply(sizes, function(sz) mean(outbreak_tot$total >= sz)),
+    "P(Less or equal)" = sapply(sizes, function(sz) mean(outbreak_tot$total <= sz))
   ),
-  caption = "Probability of outbreak sizes in Davis County"
+  caption = "Probability of outbreak sizes in Davis County",
+  digits = 2
 )
 ```
 

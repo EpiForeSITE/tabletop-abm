@@ -1,10 +1,10 @@
 
-R0s <- 1.9 # c(1.1, 1.5, 1.9)
-isolation <- FALSE # c(TRUE, FALSE)
-quarantine <- FALSE # c(TRUE, FALSE)
+R0s <- c(1.1, 1.5, 1.9)
+isolation <- c(TRUE, FALSE)
+quarantine <- c(TRUE, FALSE)
 
 nsims <- 200L
-nthreads <- 40L
+nthreads <- 50L
 
 # Generating all combinations as a data.frame
 scenarios <- expand.grid(
@@ -12,6 +12,9 @@ scenarios <- expand.grid(
   isolation = isolation,
   quarantine = quarantine
 )
+
+# Removing invalid scenarios: quarantine without isolation
+scenarios <- subset(scenarios, !(isolation == FALSE & quarantine == TRUE))
 
 for (i in seq_len(nrow(scenarios))) {
 
@@ -47,6 +50,5 @@ for (i in seq_len(nrow(scenarios))) {
     )
   )
 
-  stop("Taking a pause")
 }
 
