@@ -4,3 +4,4 @@ scenarios/*.qmd
 *.pdf
 *.Rout
 *.csv
+*.rds

@@ -14,9 +14,9 @@ params:
 #| label: checking-params
 if (!exists("params")) {
   params <- list(
-    nthreads = 4L,
+    nthreads = 10L,
     nsims = 20L,
-    R0 = 1.1,
+    R0 = 1.9,
     quarantine = TRUE,
     isolation = TRUE,
     pep = TRUE
@@ -123,6 +123,25 @@ add_entities_from_dataframe(
 )
 ```
 
+Ensuring that the virus starts at a school similar to that of the case
+
+```{r}
+#| label: seeding-virus
+# The target school has about 986 students
+idx <- davis_pop[,which(abs(agepops - 968) < 10)][1]
+preval <- numeric(nrow(davis_pop))
+preval[idx] <- 1 
+
+dist_fun <- distribute_virus_to_entities(
+  prevalence = preval,
+  as_proportion = FALSE
+)
+
+get_virus(davis_model, 0) |>
+  set_distribution_virus(dist_fun)
+
+```
+
 Checking if the model includes post-exposure prophylaxis (PEP)
 
 ```{r}
@@ -184,6 +203,40 @@ saveRDS(
     ifelse(params$isolation, "yes", "no"),
     ifelse(params$quarantine, "yes", "no")  
     )
+)
+```
+
+We want to check that the index case is effectively one within the school (entity 13):
+
+```{r}
+#| label: checking-index-case
+index_cases <- ans$reproductive[
+  (source_exposure_date == 0) & (source != -1)
+  ]$source
+
+# This all should be TRUE
+index_lb_up <- davis_pop[, cumsum(agepops)][idx + c(-1,0)]
+table(index_cases < index_lb_up[2] & index_cases > index_lb_up[1])
+```
+
+We can also look at the distribution of the reproductive number for the index case
+
+```{r}
+#| label: index-case-r0
+index_cases <- ans$reproductive[
+  (source_exposure_date == 0) & (source != -1)
+  ]
+
+r0s <- table(index_cases$rt) |> prop.table() |> addmargins()
+data.table(
+  Rt = names(r0s),
+  Probability = as.numeric(r0s)
+) |> knitr::kable(
+  caption = paste(
+    "Reproductive number distribution for the index case",
+    "(Average R0:", round(mean(index_cases$rt), 2), ")"
+  ),
+  col.names = c("R0", "Probability")
 )
 ```
 
