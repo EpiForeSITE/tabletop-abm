@@ -63,7 +63,7 @@ To compute the basic reproductive number, we use the following:
 
 ```{r}
 p_transmission <- 0.2
-p_recovery <- 1/7
+p_recovery <- 1/6
 contact_rate <- params$R0 * p_recovery / p_transmission
 
 # Figuring out if isolation and quarantine are enabled
@@ -79,7 +79,7 @@ davis_model <- ModelSEIRMixingQuarantine(
   prevalence                   = 10/N,
   contact_rate                 = contact_rate,
   transmission_rate            = p_transmission,
-  incubation_days              = 3.5,
+  incubation_days              = 1.5,
   recovery_rate                = 1/p_recovery,
   contact_matrix               = davis_mixing_matrix,
   hospitalization_rate         = 0.1,
