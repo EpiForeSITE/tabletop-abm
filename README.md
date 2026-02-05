@@ -88,6 +88,32 @@ flowchart TB
     Ir --> R
 ```
 
+## Summary of results
+
+|  R0 | isolation     | quarantine     | pep     | Probability of Outbreak Size \>= 10 |
+|----:|:--------------|:---------------|:--------|------------------------------------:|
+| 1.4 | isolation no  | quarantine no  | PEP no  |                                0.18 |
+| 1.4 | isolation no  | quarantine no  | PEP yes |                                0.18 |
+| 1.4 | isolation yes | quarantine no  | PEP no  |                                0.04 |
+| 1.4 | isolation yes | quarantine no  | PEP yes |                                0.04 |
+| 1.4 | isolation yes | quarantine yes | PEP no  |                                0.04 |
+| 1.4 | isolation yes | quarantine yes | PEP yes |                                0.04 |
+| 1.9 | isolation no  | quarantine no  | PEP yes |                                0.32 |
+| 1.9 | isolation yes | quarantine no  | PEP no  |                                0.14 |
+| 1.9 | isolation yes | quarantine no  | PEP yes |                                0.14 |
+| 1.9 | isolation yes | quarantine yes | PEP no  |                                0.12 |
+| 1.9 | isolation yes | quarantine yes | PEP yes |                                0.12 |
+| 2.4 | isolation no  | quarantine no  | PEP yes |                                0.42 |
+| 2.4 | isolation yes | quarantine no  | PEP no  |                                0.21 |
+| 2.4 | isolation yes | quarantine no  | PEP yes |                                0.21 |
+| 2.4 | isolation yes | quarantine yes | PEP no  |                                0.13 |
+| 2.4 | isolation yes | quarantine yes | PEP yes |                                0.13 |
+
+Summary of the probability of an outbreak size greater than or equal to
+10 for each scenario in Davis County.
+
+![](README_files/figure-commonmark/load-data-1.png)
+
 ## Links to the scenarios
 
 The following table links to the reports generated for each of the
@@ -95,24 +121,22 @@ scenarios run for Davis County:
 
 | R0  | Isolation | Quarantine | PEP | Link                                                                    |
 |:----|:----------|:-----------|:----|:------------------------------------------------------------------------|
-| 1.1 | no        | no         | no  | [View Report](scenarios/R0_1.1_isolation_no_quarantine_no.md)           |
-| 1.1 | no        | no         | yes | [View Report](scenarios/R0_1.1_isolation_no_quarantine_no_pep_yes.md)   |
-| 1.1 | yes       | no         | no  | [View Report](scenarios/R0_1.1_isolation_yes_quarantine_no.md)          |
-| 1.1 | yes       | no         | yes | [View Report](scenarios/R0_1.1_isolation_yes_quarantine_no_pep_yes.md)  |
-| 1.1 | yes       | yes        | no  | [View Report](scenarios/R0_1.1_isolation_yes_quarantine_yes.md)         |
-| 1.1 | yes       | yes        | yes | [View Report](scenarios/R0_1.1_isolation_yes_quarantine_yes_pep_yes.md) |
-| 1.5 | no        | no         | no  | [View Report](scenarios/R0_1.5_isolation_no_quarantine_no.md)           |
-| 1.5 | no        | no         | yes | [View Report](scenarios/R0_1.5_isolation_no_quarantine_no_pep_yes.md)   |
-| 1.5 | yes       | no         | no  | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_no.md)          |
-| 1.5 | yes       | no         | yes | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_no_pep_yes.md)  |
-| 1.5 | yes       | yes        | no  | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_yes.md)         |
-| 1.5 | yes       | yes        | yes | [View Report](scenarios/R0_1.5_isolation_yes_quarantine_yes_pep_yes.md) |
-| 1.9 | no        | no         | no  | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)           |
+| 1.4 | no        | no         | no  | [View Report](scenarios/R0_1.4_isolation_no_quarantine_no.md)           |
+| 1.4 | no        | no         | yes | [View Report](scenarios/R0_1.4_isolation_no_quarantine_no_pep_yes.md)   |
+| 1.4 | yes       | no         | no  | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_no.md)          |
+| 1.4 | yes       | no         | yes | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_no_pep_yes.md)  |
+| 1.4 | yes       | yes        | no  | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_yes.md)         |
+| 1.4 | yes       | yes        | yes | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_yes_pep_yes.md) |
 | 1.9 | no        | no         | yes | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no_pep_yes.md)   |
 | 1.9 | yes       | no         | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)          |
 | 1.9 | yes       | no         | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no_pep_yes.md)  |
 | 1.9 | yes       | yes        | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes.md)         |
 | 1.9 | yes       | yes        | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes_pep_yes.md) |
+| 2.4 | no        | no         | yes | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no_pep_yes.md)   |
+| 2.4 | yes       | no         | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no.md)          |
+| 2.4 | yes       | no         | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no_pep_yes.md)  |
+| 2.4 | yes       | yes        | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes.md)         |
+| 2.4 | yes       | yes        | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes_pep_yes.md) |
 
 Links to the scenario reports for Davis County
 

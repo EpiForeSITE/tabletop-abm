@@ -22,3 +22,7 @@ allocate:
 
 scenarios:
 	R CMD BATCH --vanilla runner.R runner.Rout &
+
+module:
+	@echo "Ensure to run the following command"
+	@echo "module load R/4.4.0 quarto"

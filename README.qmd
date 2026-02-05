@@ -69,6 +69,51 @@ flowchart TB
     Ir --> R
 ```
 
+## Summary of results
+
+```{r}
+#| label: load-data
+#| echo: false
+#| warning: false
+#| message: false
+library(data.table)
+library(ggplot2)
+dat <- fread("scenarios/combined_scenario_results.csv")
+
+# Replacing the TRUE/FALSE with yes/no for better readability
+dat[, isolation := ifelse(isolation, "isolation yes", " isolation no")]
+dat[, quarantine := ifelse(quarantine, "quarantine yes", "quarantine no")]
+dat[, pep := ifelse(pep, "PEP yes", "PEP no")]
+
+dat <- dat[,.(size, R0, isolation, quarantine, pep, p_geq)]
+
+# Sorting and renaming for better readability
+setorder(dat, R0, isolation, quarantine, pep)
+setnames(dat, "p_geq", "Probability of Outbreak Size >= 10")
+
+dat <- dat[size==10]
+dat[, size := NULL]
+
+knitr::kable(
+  dat,
+  caption = "Summary of the probability of an outbreak size greater than or equal to 10 for each scenario in Davis County."
+)
+
+ggplot(dat, aes(x = R0, y = `Probability of Outbreak Size >= 10`)) +
+  geom_bar(stat = "identity") +
+  facet_grid(isolation ~ quarantine + pep) +
+  labs(
+    title = "Probability of an outbreak size greater than or equal to 10 in Davis County",
+    subtitle = "Faceted by isolation, quarantine, and PEP scenarios",
+    x = "R0",
+    y = "Probability of Outbreak Size >= 10"
+  ) +
+  theme_minimal() 
+
+if (interactive())
+  ggsave("summary_plot.png", width = 8, height = 6)
+```
+
 
 ## Links to the scenarios
 

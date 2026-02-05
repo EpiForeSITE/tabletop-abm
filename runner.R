@@ -1,5 +1,5 @@
 
-R0s <- c(1.1, 1.5, 1.9)
+R0s <- c(1.1, 1.5, 1.9) * 1.25
 isolation <- c(TRUE, FALSE)
 quarantine <- c(TRUE, FALSE)
 pep <- c(TRUE, FALSE)

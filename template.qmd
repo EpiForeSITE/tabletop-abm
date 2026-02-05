@@ -198,10 +198,11 @@ str(ans)
 saveRDS(
   ans,
   file = sprintf(
-    "R0_%.1f_isolation_%s_quarantine_%s.rds",
+    "R0_%.1f_isolation_%s_quarantine_%s_pep_%s.rds",
     params$R0,
     ifelse(params$isolation, "yes", "no"),
-    ifelse(params$quarantine, "yes", "no")  
+    ifelse(params$quarantine, "yes", "no"),
+    ifelse(params$pep, "yes", "no")
     )
 )
 ```
