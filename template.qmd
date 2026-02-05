@@ -1,5 +1,5 @@
 ---
-title: "Disease modeling with age mixing data: Davis County example"
+title: "H5N1 modeling with age mixing data: Davis County example"
 format: gfm
 params:
   nthreads: 4L
@@ -12,6 +12,10 @@ params:
 
 ```{r}
 #| label: checking-params
+#| echo: false
+
+knitr::opts_chunk$set(echo = FALSE)
+
 if (!exists("params")) {
   params <- list(
     nthreads = 10L,
@@ -27,6 +31,7 @@ if (!exists("params")) {
 ```{r}
 library(epiworldR)
 library(data.table)
+library(ggplot2)
 ```
 
 ## Data preparation
@@ -147,6 +152,8 @@ Checking if the model includes post-exposure prophylaxis (PEP)
 ```{r}
 #| label: pep-check
 if (params$pep) {
+
+  # Creating the corresponding flag for the tool
   add_tool(
     davis_model,
     tool(
@@ -156,9 +163,10 @@ if (params$pep) {
       susceptibility_reduction = 0.5,
       transmission_reduction = 0.8,
       recovery_enhancer = 0.0,
-    death_reduction = 0.0
+      death_reduction = 0.0
     )
   )
+  
 }
 ```
 
@@ -166,14 +174,28 @@ Running the model
 
 ```{r}
 #| label: running-model
-davis_model |>
-  run_multiple(
-    ndays = 100,
-    nsims = params$nsims,
-    seed  = 8812,
-    saver = make_saver("outbreak_size", "hospitalizations", "reproductive"),
-    nthreads =params$nthreads
+# Check if the model has already been run for this scenario
+fn_rds <- sprintf(
+  "R0_%.1f_isolation_%s_quarantine_%s_pep_%s.rds",
+  params$R0,
+  ifelse(params$isolation, "yes", "no"),
+  ifelse(params$quarantine, "yes", "no"),
+  ifelse(params$pep, "yes", "no")
   )
+
+if (file.exists(fn_rds)) {
+  # We just run it once
+  run(davis_model, ndays = 100, seed = 8812)
+} else {
+  davis_model |>
+    run_multiple(
+      ndays = 100,
+      nsims = params$nsims,
+      seed  = 8812,
+      saver = make_saver("outbreak_size", "hospitalizations", "reproductive"),
+      nthreads =params$nthreads
+    )
+}
 ```
 
 Looking at the single simulation results
@@ -186,25 +208,20 @@ summary(davis_model)
 ```{r}
 #| label: run_multiple_get_results
 # Extracting the results
-ans <- davis_model |>
-  run_multiple_get_results(
-    freader = data.table::fread
-  )
-
-# Taking a look at the structure
-str(ans)
-
-# Saving it
-saveRDS(
-  ans,
-  file = sprintf(
-    "R0_%.1f_isolation_%s_quarantine_%s_pep_%s.rds",
-    params$R0,
-    ifelse(params$isolation, "yes", "no"),
-    ifelse(params$quarantine, "yes", "no"),
-    ifelse(params$pep, "yes", "no")
+if (file.exists(fn_rds)) {
+  ans <- readRDS(fn_rds)
+} else {
+  ans <- davis_model |>
+    run_multiple_get_results(
+      freader = data.table::fread
     )
-)
+
+  # Taking a look at the structure
+  str(ans)
+
+  # Saving it
+  saveRDS(ans, file = fn_rds)
+}
 ```
 
 We want to check that the index case is effectively one within the school (entity 13):
@@ -256,21 +273,29 @@ Finally, since we are only interested about the final outbreak size (in this cas
 
 ```{r}
 #| label: timeline-outbreak-size
+
+if (interactive())
+  png("timeline_outbreak_size.png", width = 500, height = 500)
 # Aggregating to get the final
 with(
   outbreak_size,
   {
     plot(
       x = date,
-      y = outbreak_size,
-      col = adjustcolor("blue", alpha.f = .2),
-      pch = 19,
-      ylab = "Cases",
+      y = jitter(outbreak_size),
+      col = adjustcolor("blue", alpha.f = .05),
+      lwd = 2,
+      pch = 20,
+      ylab = "Cases (log-scale)",
       xlab = "Day",
-      main = "Disease outbreak size in Davis County",
-      sub = "Mixing model with age and school data (100 simulations)"
+      main = "H5N1 outbreak size in Davis County",
+      sub = "Mixing model with age and school data (100 simulations)",
+      log = "y"
     )
 })
+
+if (interactive())
+  dev.off()
 ```
 
 We can also investigate the distribution of the final counts
@@ -278,27 +303,44 @@ We can also investigate the distribution of the final counts
 ```{r}
 #| label: hist-outbreak-size
 # Aggregating to get the final
-with(
-  outbreak_size[date == max(date)],
-  {
-    hist(
-      outbreak_size,
-      main = "Disease outbreak size in Davis County",
-      sub = "Mixing model with age and school data",
-      breaks = 20
-    )
-})
+if (interactive())
+  png("hist_outbreak_size.png", width = 500, height = 500)
+
+ggplot(outbreak_size[date == max(date)], aes(x = outbreak_size)) +
+  geom_histogram(bins = 20, fill = "blue", color = "black", alpha = 0.7) +
+  scale_x_log10() +
+  labs(
+    title = "H5N1 outbreak size in Davis County",
+    subtitle = "Mixing model with age and school data (100 simulations)",
+    x = "Cases (log-scale)",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+# with(
+#   outbreak_size[date == max(date)],
+#   {
+#     hist(
+#       log(outbreak_size),
+#       main = "H5N1 outbreak size in Davis County",
+#       sub = "Mixing model with age and school data",
+#       breaks = 20,
+#       xlab = "Cases (log-scale)",
+#     )
+# })
+
+if (interactive())
+  dev.off()
 ```
 
 ```{r}
 #| label: alt-representation
+#| results: asis
 outbreak_tot <- outbreak_size[
   date == max(date), .(total = sum(outbreak_size)), by = sim_num
   ]
 
 # Creating a table showing the probability of these events
 sizes <- c(10, 20, 50, 100, 200, 500, 1000, 2000)
-sapply(sizes, function(sz) mean(outbreak_tot$total >= sz))
 
 knitr::kable(
   data.table(
@@ -311,7 +353,7 @@ knitr::kable(
 )
 ```
 
-## Hospitalizations
+<!-- ## Hospitalizations
 
 In the case of the hospitalizations, we can draw a similar figure. The hospitalizations data contains the following information:
 
@@ -359,4 +401,4 @@ if (nrow(hospitalizations) > 0) {
 ```
 
 ## Final comments
-
+ -->

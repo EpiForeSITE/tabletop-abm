@@ -1,8 +1,15 @@
 
-R0s <- c(1.1, 1.5, 1.9) * 1.25
-isolation <- c(TRUE, FALSE)
-quarantine <- c(TRUE, FALSE)
-pep <- c(TRUE, FALSE)
+if (TRUE) {
+  R0s <- c(1.1, 1.5, 1.9) * 1.25
+  isolation <- c(TRUE, FALSE)
+  quarantine <- c(TRUE, FALSE)
+  pep <- c(TRUE, FALSE)
+} else {
+  R0s <- 1.9
+  isolation <- c(FALSE)
+  quarantine <- c(FALSE)
+  pep <- c(TRUE, FALSE)
+}
 
 nsims <- 200L
 nthreads <- 50L
@@ -38,6 +45,7 @@ for (i in seq_len(nrow(scenarios))) {
   fn_qmd <- gsub(".md$", ".qmd", fn)
 
   if (file.exists(fn)) {
+    message("The file ", fn, " already exists. Skipping scenario: ", scenario_name)
     next  # Skip if the file already exists
   }
 

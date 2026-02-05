@@ -1,8 +1,8 @@
 # Tabletop ABM for Davis County, Utah
 
-This repository presents a tabletop agent-based model (ABM) for disease
+This repository presents a tabletop agent-based model (ABM) for H5N1
 spread in Davis County, Utah. The model utilizes age mixing data to
-simulate disease transmission dynamics under various intervention
+simulate H5N1 transmission dynamics under various intervention
 scenarios, including isolation, quarantine, and post-exposure
 prophylaxis (PEP).
 
@@ -19,13 +19,66 @@ schools based on the population data, and the rest of the population is
 assigned to age groups. The mixing patterns are given by an age-based
 contact matrix based on the Polymod study.
 
+``` mermaid
+flowchart LR
+    S[Susceptible] --> E[Exposed]
+    E --> I[Infected]
+    I --> H[Hospitalized]
+    H --> R[Recovered]
+    I --> R
+```
+
 The model features contact tracing, isolation of detected cases, and
 quarantine of contacts. Detection happens with uncertainty (80% success
 rate), and agents isolate and move to the quarantine states with
 certainty (for now). The model also allows for the implementation of
 post-exposure prophylaxis (PEP) for contacts of detected cases. The PEP
 is implemented as a baseline tool that reduces the probability of
-becoming infected and transmitting the disease.
+becoming infected and transmitting H5N1.
+
+The quarantine process is as follows:
+
+``` mermaid
+flowchart LR
+    Start((Start)) --> infected{"Already<br>quarantined<br>or isolated?"}
+    infected -->|Yes|End((End))
+    infected -->|No|Infected{"Infected<br>(infectious)?"}
+    Infected -->|Yes|WillToIsolate{"Willing to isolate"}
+    Infected -->|No|vax
+    WillToIsolate -->|Yes| Isolate((Isolate))
+    WillToIsolate -->|No| End
+    vax{"Will use PEP"}
+    vax -->|Yes|End
+    vax -->|No|WillQuarantine
+    WillQuarantine{"Willing to<br>Quarantine?"} -->|No|End
+    WillQuarantine -->|Yes|Quarantine((Quarantine))
+```
+
+## Limitations of the model
+
+The model has various assumptions that may not hold in real-world
+scenarios:
+
+1.  Like most, this model does not include a behavioral change from the
+    agents’ perspective. This is something we cannot predict accurately.
+    For example, parents deciding to send or not their kids to school,
+    or how they might respond to public health messaging.
+
+2.  The disease affects equally all age groups, which is not the case
+    for many diseases. This may be important since we are incorporating
+    a component of the population that is school-age, and they may have
+    different susceptibility and infectiousness profiles compared to
+    adults.
+
+3.  We are not using real social network data, but rather a contact
+    matrix that gives us the average number of contacts between age
+    groups. This means that we are not capturing the heterogeneity in
+    contact patterns that may exist in the real world. In previous
+    research it has been demonstrated that social networks (clustering)
+    may play an important role in the spread of infectious diseases, and
+    this is not captured in our model.
+
+## Running the model
 
 To execute this model, it is recommended to run it in a high-performance
 computing environment due to its computational intensity, especially
@@ -132,21 +185,4 @@ scenarios run for Davis County:
 | 1.9 | no        | no         | no  | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)           |
 | 1.9 | no        | no         | yes | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no_pep_yes.md)   |
 | 1.9 | yes       | no         | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)          |
-| 1.9 | yes       | no         | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no_pep_yes.md)  |
-| 1.9 | yes       | yes        | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes.md)         |
-| 1.9 | yes       | yes        | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes_pep_yes.md) |
-| 2.4 | no        | no         | no  | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no.md)           |
-| 2.4 | no        | no         | yes | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no_pep_yes.md)   |
-| 2.4 | yes       | no         | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no.md)          |
-| 2.4 | yes       | no         | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no_pep_yes.md)  |
-| 2.4 | yes       | yes        | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes.md)         |
-| 2.4 | yes       | yes        | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes_pep_yes.md) |
-
-Links to the scenario reports for Davis County
-
-## Software
-
-The simulations used the R package `epiworldR` version
-`r`packageVersion(“epiworldR”)\`\`, which can be found at
-<https://github.com/UofUEpiBio/epiworldR>, and R version R version 4.4.0
-(2024-04-24).
+| 1.9 | yes       | no         | 

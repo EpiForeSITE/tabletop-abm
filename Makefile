@@ -23,6 +23,9 @@ allocate:
 scenarios:
 	R CMD BATCH --vanilla runner.R runner.Rout &
 
+scenarios-chpc:
+	sbatch --partition=notchpeak-freecycle --account=vegayon --cpus-per-task=50 --mem=200G --wrap="Rscript --vanilla runner.R"
+
 module:
 	@echo "Ensure to run the following command"
 	@echo "module load R/4.4.0 quarto"
