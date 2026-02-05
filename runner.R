@@ -11,7 +11,7 @@ if (TRUE) {
   pep <- c(TRUE, FALSE)
 }
 
-nsims <- 200L
+nsims <- 400L
 nthreads <- 50L
 
 # Generating all combinations as a data.frame
@@ -43,11 +43,6 @@ for (i in seq_len(nrow(scenarios))) {
   # Verifying the file does not already exist
   fn <- file.path("scenarios", paste0(scenario_name, ".md"))
   fn_qmd <- gsub(".md$", ".qmd", fn)
-
-  if (file.exists(fn)) {
-    message("The file ", fn, " already exists. Skipping scenario: ", scenario_name)
-    next  # Skip if the file already exists
-  }
 
   # Creating a copy of the template
   file.copy("template.qmd", fn_qmd, overwrite = TRUE)
