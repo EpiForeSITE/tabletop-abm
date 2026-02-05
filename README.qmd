@@ -101,7 +101,7 @@ knitr::kable(
 
 ggplot(dat, aes(x = R0, y = `Probability of Outbreak Size >= 10`)) +
   geom_bar(stat = "identity") +
-  facet_grid(isolation ~ quarantine + pep) +
+  facet_wrap(isolation ~ quarantine + pep) +
   labs(
     title = "Probability of an outbreak size greater than or equal to 10 in Davis County",
     subtitle = "Faceted by isolation, quarantine, and PEP scenarios",
