@@ -145,24 +145,24 @@ flowchart TB
 
 |  R0 | isolation     | quarantine     | pep     | Probability of Outbreak Size \>= 10 |
 |----:|:--------------|:---------------|:--------|------------------------------------:|
-| 1.4 | isolation no  | quarantine no  | PEP no  |                                0.18 |
-| 1.4 | isolation no  | quarantine no  | PEP yes |                                0.18 |
-| 1.4 | isolation yes | quarantine no  | PEP no  |                                0.04 |
-| 1.4 | isolation yes | quarantine no  | PEP yes |                                0.04 |
-| 1.4 | isolation yes | quarantine yes | PEP no  |                                0.04 |
-| 1.4 | isolation yes | quarantine yes | PEP yes |                                0.04 |
-| 1.9 | isolation no  | quarantine no  | PEP no  |                                0.32 |
-| 1.9 | isolation no  | quarantine no  | PEP yes |                                0.32 |
-| 1.9 | isolation yes | quarantine no  | PEP no  |                                0.14 |
-| 1.9 | isolation yes | quarantine no  | PEP yes |                                0.14 |
-| 1.9 | isolation yes | quarantine yes | PEP no  |                                0.12 |
-| 1.9 | isolation yes | quarantine yes | PEP yes |                                0.12 |
-| 2.4 | isolation no  | quarantine no  | PEP no  |                                0.42 |
-| 2.4 | isolation no  | quarantine no  | PEP yes |                                0.42 |
-| 2.4 | isolation yes | quarantine no  | PEP no  |                                0.21 |
-| 2.4 | isolation yes | quarantine no  | PEP yes |                                0.21 |
-| 2.4 | isolation yes | quarantine yes | PEP no  |                                0.13 |
-| 2.4 | isolation yes | quarantine yes | PEP yes |                                0.13 |
+| 1.4 | isolation no  | quarantine no  | PEP no  |                                0.17 |
+| 1.4 | isolation no  | quarantine no  | PEP yes |                                0.17 |
+| 1.4 | isolation yes | quarantine no  | PEP no  |                                0.08 |
+| 1.4 | isolation yes | quarantine no  | PEP yes |                                0.08 |
+| 1.4 | isolation yes | quarantine yes | PEP no  |                                0.08 |
+| 1.4 | isolation yes | quarantine yes | PEP yes |                                0.08 |
+| 1.9 | isolation no  | quarantine no  | PEP no  |                                0.30 |
+| 1.9 | isolation no  | quarantine no  | PEP yes |                                0.30 |
+| 1.9 | isolation yes | quarantine no  | PEP no  |                                0.20 |
+| 1.9 | isolation yes | quarantine no  | PEP yes |                                0.20 |
+| 1.9 | isolation yes | quarantine yes | PEP no  |                                0.21 |
+| 1.9 | isolation yes | quarantine yes | PEP yes |                                0.21 |
+| 2.4 | isolation no  | quarantine no  | PEP no  |                                0.43 |
+| 2.4 | isolation no  | quarantine no  | PEP yes |                                0.43 |
+| 2.4 | isolation yes | quarantine no  | PEP no  |                                0.33 |
+| 2.4 | isolation yes | quarantine no  | PEP yes |                                0.33 |
+| 2.4 | isolation yes | quarantine yes | PEP no  |                                0.27 |
+| 2.4 | isolation yes | quarantine yes | PEP yes |                                0.27 |
 
 Summary of the probability of an outbreak size greater than or equal to
 10 for each scenario in Davis County.
