@@ -98,11 +98,13 @@ flowchart TB
 | 1.4 | isolation yes | quarantine no  | PEP yes |                                0.04 |
 | 1.4 | isolation yes | quarantine yes | PEP no  |                                0.04 |
 | 1.4 | isolation yes | quarantine yes | PEP yes |                                0.04 |
+| 1.9 | isolation no  | quarantine no  | PEP no  |                                0.32 |
 | 1.9 | isolation no  | quarantine no  | PEP yes |                                0.32 |
 | 1.9 | isolation yes | quarantine no  | PEP no  |                                0.14 |
 | 1.9 | isolation yes | quarantine no  | PEP yes |                                0.14 |
 | 1.9 | isolation yes | quarantine yes | PEP no  |                                0.12 |
 | 1.9 | isolation yes | quarantine yes | PEP yes |                                0.12 |
+| 2.4 | isolation no  | quarantine no  | PEP no  |                                0.42 |
 | 2.4 | isolation no  | quarantine no  | PEP yes |                                0.42 |
 | 2.4 | isolation yes | quarantine no  | PEP no  |                                0.21 |
 | 2.4 | isolation yes | quarantine no  | PEP yes |                                0.21 |
@@ -127,11 +129,13 @@ scenarios run for Davis County:
 | 1.4 | yes       | no         | yes | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_no_pep_yes.md)  |
 | 1.4 | yes       | yes        | no  | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_yes.md)         |
 | 1.4 | yes       | yes        | yes | [View Report](scenarios/R0_1.4_isolation_yes_quarantine_yes_pep_yes.md) |
+| 1.9 | no        | no         | no  | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)           |
 | 1.9 | no        | no         | yes | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no_pep_yes.md)   |
 | 1.9 | yes       | no         | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)          |
 | 1.9 | yes       | no         | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no_pep_yes.md)  |
 | 1.9 | yes       | yes        | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes.md)         |
 | 1.9 | yes       | yes        | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes_pep_yes.md) |
+| 2.4 | no        | no         | no  | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no.md)           |
 | 2.4 | no        | no         | yes | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no_pep_yes.md)   |
 | 2.4 | yes       | no         | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no.md)          |
 | 2.4 | yes       | no         | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no_pep_yes.md)  |
