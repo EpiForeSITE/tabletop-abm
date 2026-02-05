@@ -185,4 +185,21 @@ scenarios run for Davis County:
 | 1.9 | no        | no         | no  | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no.md)           |
 | 1.9 | no        | no         | yes | [View Report](scenarios/R0_1.9_isolation_no_quarantine_no_pep_yes.md)   |
 | 1.9 | yes       | no         | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no.md)          |
-| 1.9 | yes       | no         | 
+| 1.9 | yes       | no         | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_no_pep_yes.md)  |
+| 1.9 | yes       | yes        | no  | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes.md)         |
+| 1.9 | yes       | yes        | yes | [View Report](scenarios/R0_1.9_isolation_yes_quarantine_yes_pep_yes.md) |
+| 2.4 | no        | no         | no  | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no.md)           |
+| 2.4 | no        | no         | yes | [View Report](scenarios/R0_2.4_isolation_no_quarantine_no_pep_yes.md)   |
+| 2.4 | yes       | no         | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no.md)          |
+| 2.4 | yes       | no         | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_no_pep_yes.md)  |
+| 2.4 | yes       | yes        | no  | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes.md)         |
+| 2.4 | yes       | yes        | yes | [View Report](scenarios/R0_2.4_isolation_yes_quarantine_yes_pep_yes.md) |
+
+Links to the scenario reports for Davis County
+
+## Software
+
+The simulations used the R package `epiworldR` version
+`r`packageVersion(“epiworldR”)\`\`, which can be found at
+<https://github.com/UofUEpiBio/epiworldR>, and R version R version 4.4.0
+(2024-04-24).
