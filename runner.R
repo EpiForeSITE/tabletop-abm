@@ -11,7 +11,7 @@ if (TRUE) {
   pep <- c(TRUE, FALSE)
 }
 
-nsims <- 400L
+nsims <- 100L
 nthreads <- 50L
 
 # Generating all combinations as a data.frame
